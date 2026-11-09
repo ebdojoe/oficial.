@@ -1,0 +1,665 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>EB DO JOE</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Barlow:wght@400;500;600&family=Big+Shoulders+Display:wght@600;800&display=swap">
+<style>
+/* Layout: cabeçalho fixo preto, hero com brilho dourado, cartões de categoria em 2 colunas com brilho da própria cor, catálogo em grade de insígnias. Loja de visual único (preto e dourado), por escolha. */
+:root{
+  --bg:#08080a;
+  --surface:#111115;
+  --surface-2:#18181d;
+  --line:#26262d;
+  --fg:#f3eee3;
+  --muted:#a09b8f;
+  --amber:#d9b44a;
+  --gold:#d4303f;
+  --gold-hi:#ee4b59;
+  --gold-lo:#8c1d29;
+  --on-gold:#17120400;
+  --ink:#ffffff;
+  --blue:#4d8dff;
+  --green:#3ccf8e;
+  --violet:#a085ff;
+  --warn:#f0b04a;
+  --danger:#ff7a6b;
+  --font-display:'Big Shoulders Display','Barlow Condensed',Impact,'Arial Narrow',sans-serif;
+  --font-body:'Barlow',system-ui,-apple-system,'Segoe UI',sans-serif;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--fg);font:400 15px/1.55 var(--font-body);min-height:100%;-webkit-text-size-adjust:100%}
+body::before{content:"";position:fixed;inset:0 0 auto;height:env(safe-area-inset-top,0px);z-index:30;background:var(--bg)}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--gold-hi);outline-offset:2px;border-radius:8px}
+.wrap{max-width:1040px;margin:0 auto;padding-left:max(16px,env(safe-area-inset-left,0px));padding-right:max(16px,env(safe-area-inset-right,0px))}
+.sr{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+
+/* cabeçalho */
+.top{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:10px;padding-block:10px}
+.logo{display:flex;align-items:center;gap:8px;font-family:var(--font-display);font-weight:800;font-size:22px;letter-spacing:.06em;text-transform:uppercase;color:var(--gold-hi);flex:none}
+.logo svg{width:28px;height:28px;color:var(--gold)}
+.search{flex:1;min-width:0;position:relative}
+.search svg{position:absolute;left:12px;top:50%;transform:translateY(-50%);width:18px;height:18px;color:var(--muted);pointer-events:none}
+.search input{width:100%;height:42px;border-radius:14px;border:1px solid var(--line);background:var(--surface);color:var(--fg);padding:0 12px 0 38px;font:inherit;font-size:15px}
+.search input::placeholder{color:var(--muted)}
+.search input:focus{outline:none;border-color:var(--gold-lo);box-shadow:0 0 0 3px color-mix(in srgb,var(--gold) 20%,transparent)}
+.cartbtn{position:relative;flex:none;width:42px;height:42px;border-radius:14px;border:1px solid var(--line);background:var(--surface);display:grid;place-items:center;color:var(--gold-hi)}
+.cartbtn svg{width:20px;height:20px}
+.cartbtn .n{position:absolute;top:-6px;right:-6px;min-width:20px;height:20px;padding:0 5px;border-radius:10px;background:var(--gold);color:var(--ink);font-size:12px;font-weight:600;display:grid;place-items:center}
+@media (max-width:379px){.logo span{display:none}}
+
+/* hero */
+.hero{position:relative;overflow:hidden;border-bottom:1px solid var(--line);background:radial-gradient(90% 120% at 50% -20%,color-mix(in srgb,var(--gold) 24%,transparent),transparent 62%),var(--bg)}
+.hero::after{content:"";position:absolute;inset:auto 0 0 0;height:1px;background:linear-gradient(90deg,transparent,var(--gold),transparent);opacity:.7}
+.hero .wrap{padding-block:34px 30px;display:flex;flex-direction:column;gap:18px;align-items:flex-start}
+.eyebrow{font-size:12px;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--gold)}
+.hero h1{margin:0;font-family:var(--font-display);font-weight:800;font-size:clamp(64px,19vw,132px);line-height:.88;letter-spacing:.02em;text-transform:uppercase;text-wrap:balance;background:linear-gradient(180deg,var(--gold-hi),var(--gold) 55%,var(--gold-lo));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{margin:0;max-width:46ch;color:var(--muted);font-size:17px}
+.chips{display:flex;flex-wrap:wrap;gap:8px}
+.chip{font-size:12.5px;font-weight:500;padding:5px 11px;border-radius:999px;border:1px solid var(--line);background:color-mix(in srgb,var(--surface) 80%,transparent);color:var(--fg)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;min-height:48px;padding:0 22px;border-radius:14px;border:1px solid transparent;font-weight:600;font-size:15.5px;background:linear-gradient(180deg,var(--gold-hi),var(--gold));color:var(--ink);box-shadow:0 10px 30px -12px var(--gold)}
+.btn:hover{filter:brightness(1.06)}
+.btn.ghost{background:var(--surface);color:var(--fg);border-color:var(--line);box-shadow:none}
+.btn.block{width:100%}
+.btn[disabled]{opacity:.45;cursor:not-allowed;filter:none}
+.ins-deco{position:absolute;right:-24px;top:18px;width:200px;height:200px;color:var(--gold);opacity:.09;pointer-events:none}
+
+/* seções */
+section.block{padding-block:36px 8px}
+.sec-head{display:flex;align-items:baseline;justify-content:space-between;gap:12px;margin-bottom:14px}
+.sec-head h2{margin:0;font-family:var(--font-display);font-weight:800;font-size:30px;letter-spacing:.04em;text-transform:uppercase;text-wrap:balance}
+.sec-head span{color:var(--muted);font-size:13px}
+
+/* cartões de categoria */
+.cats{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;max-width:760px}
+.cat{--c:var(--gold);position:relative;display:flex;flex-direction:column;gap:10px;min-height:206px;padding:16px;border-radius:22px;border:1px solid color-mix(in srgb,var(--c) 42%,var(--line));background:radial-gradient(120% 90% at 0% 0%,color-mix(in srgb,var(--c) 24%,transparent),transparent 62%),var(--surface);box-shadow:0 0 42px -20px var(--c);transition:transform .2s,box-shadow .2s}
+.cat:hover{transform:translateY(-2px);box-shadow:0 0 54px -14px var(--c)}
+.cat .ic{width:46px;height:46px;border-radius:14px;display:grid;place-items:center;color:var(--c);background:color-mix(in srgb,var(--c) 16%,var(--bg));border:1px solid color-mix(in srgb,var(--c) 38%,transparent)}
+.cat .ic svg{width:26px;height:26px}
+.cat h3{margin:0;font-family:var(--font-display);font-weight:800;font-size:25px;line-height:1;letter-spacing:.03em;text-transform:uppercase;text-wrap:balance}
+.cat p{margin:0;color:var(--muted);font-size:13.5px;line-height:1.4;flex:1}
+.cat .count{align-self:flex-start;font-size:12.5px;font-weight:600;color:var(--c);padding:4px 10px;border-radius:999px;background:color-mix(in srgb,var(--c) 14%,transparent);border:1px solid color-mix(in srgb,var(--c) 30%,transparent)}
+.cat.amber{--c:var(--amber)}.cat.blue{--c:var(--blue)}.cat.green{--c:var(--green)}.cat.violet{--c:var(--violet)}
+.cat.soon{cursor:default}
+.cat.soon:hover{transform:none;box-shadow:0 0 42px -20px var(--c)}
+
+/* catálogo */
+.crumb{display:flex;align-items:center;gap:8px;padding-block:18px 4px;font-size:13.5px;color:var(--muted)}
+.crumb a{color:var(--gold-hi)}
+.page-title{margin:6px 0 4px;font-family:var(--font-display);font-weight:800;font-size:clamp(38px,10vw,60px);line-height:.95;letter-spacing:.03em;text-transform:uppercase;text-wrap:balance}
+.page-sub{margin:0 0 8px;color:var(--muted);max-width:56ch}
+.group{padding-top:26px}
+.group h3{display:flex;align-items:baseline;gap:10px;margin:0 0 12px;font-family:var(--font-display);font-weight:800;font-size:22px;letter-spacing:.05em;text-transform:uppercase;color:var(--gold-hi)}
+.group h3::after{content:"";flex:1;height:1px;background:linear-gradient(90deg,var(--gold-lo),transparent)}
+.group h3 small{order:2;font-family:var(--font-body);font-weight:500;font-size:12.5px;letter-spacing:0;text-transform:none;color:var(--muted)}
+.grid{display:grid;grid-template-columns:minmax(0,1fr);gap:10px}
+@media (min-width:720px){.grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (min-width:1000px){.grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+.pcard{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:10px 12px 10px 10px;border-radius:18px;border:1px solid var(--line);background:var(--surface);transition:border-color .2s,box-shadow .2s}
+.pcard:hover{border-color:var(--gold-lo);box-shadow:0 0 36px -22px var(--gold)}
+.pcard a.pl{display:flex;align-items:center;gap:12px;min-width:0;flex:1}
+.pcard .ins{height:60px;width:60px;flex:none}
+.pcard .ins svg{width:40px;height:40px}
+.pcard .tx{display:flex;flex-direction:column;min-width:0}
+.ins{height:92px;border-radius:14px;display:grid;place-items:center;color:var(--gold-hi);background:radial-gradient(70% 90% at 50% 40%,color-mix(in srgb,var(--gold) 20%,transparent),transparent 72%),var(--surface-2);border:1px solid var(--line)}
+.ins svg{width:64px;height:64px;filter:drop-shadow(0 0 8px color-mix(in srgb,var(--gold) 55%,transparent))}
+.code{font-family:var(--font-display);font-weight:800;font-size:19px;letter-spacing:.06em;color:var(--gold)}
+.pcard h4{margin:0;font-size:15px;font-weight:600;line-height:1.25;overflow-wrap:anywhere}
+.pfoot{flex:none;display:flex;flex-direction:column;align-items:flex-end;gap:6px}
+.price{font-weight:600;font-size:15.5px;font-variant-numeric:tabular-nums}
+.price.tbd{font-weight:500;font-size:13.5px;color:var(--muted)}
+.mini{min-height:38px;padding:0 16px;border-radius:12px;border:1px solid transparent;background:linear-gradient(180deg,var(--gold-hi),var(--gold));color:var(--ink);font-weight:600;font-size:14.5px}
+.mini[disabled]{background:var(--surface-2);color:var(--muted);border-color:var(--line);cursor:not-allowed}
+.empty{margin-top:26px;padding:34px 20px;border-radius:22px;border:1px dashed color-mix(in srgb,var(--c,var(--gold)) 50%,var(--line));text-align:center;background:radial-gradient(80% 100% at 50% 0%,color-mix(in srgb,var(--c,var(--gold)) 12%,transparent),transparent 70%)}
+.empty h3{margin:0 0 6px;font-family:var(--font-display);font-weight:800;font-size:26px;letter-spacing:.04em;text-transform:uppercase}
+.empty p{margin:0 auto;max-width:44ch;color:var(--muted)}
+
+/* abas de seção */
+.tabs{position:sticky;top:calc(env(safe-area-inset-top,0px) + 63px);z-index:15;margin-top:30px;background:color-mix(in srgb,var(--bg) 92%,transparent);backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);border-block:1px solid var(--line)}
+.tabs .wrap{display:flex;gap:8px;overflow-x:auto;padding-block:10px;scrollbar-width:none}
+.tabs .wrap::-webkit-scrollbar{display:none}
+.tabs a{flex:none;padding:8px 16px;border-radius:999px;border:1px solid var(--line);background:var(--surface);font-size:14px;font-weight:500;color:var(--muted)}
+.tabs a.on{color:var(--ink);background:var(--gold);border-color:var(--gold)}
+.store-sec{scroll-margin-top:136px;padding-top:26px}
+.store-sec .sec-head{margin-bottom:6px}
+
+/* produto */
+.prod{display:grid;grid-template-columns:minmax(0,1fr);gap:22px;padding-block:14px 8px}
+.prod .big{aspect-ratio:1/1;max-width:100%;border-radius:26px;display:grid;place-items:center;color:var(--gold-hi);border:1px solid var(--gold-lo);background:radial-gradient(70% 70% at 50% 40%,color-mix(in srgb,var(--gold) 26%,transparent),transparent 72%),var(--surface);box-shadow:0 0 70px -30px var(--gold)}
+.prod .big svg{width:52%;height:52%;filter:drop-shadow(0 0 16px color-mix(in srgb,var(--gold) 60%,transparent))}
+.prod .info{display:flex;flex-direction:column;gap:14px;min-width:0}
+.prod h1{margin:0;font-family:var(--font-display);font-weight:800;font-size:clamp(40px,11vw,64px);line-height:.95;letter-spacing:.02em;text-transform:uppercase;text-wrap:balance}
+.tag{display:inline-flex;align-self:flex-start;padding:4px 12px;border-radius:999px;border:1px solid var(--gold-lo);color:var(--gold-hi);font-size:13px;font-weight:600}
+.bigprice{font-family:var(--font-display);font-weight:800;font-size:40px;letter-spacing:.02em;font-variant-numeric:tabular-nums}
+.bigprice.tbd{font-family:var(--font-body);font-weight:500;font-size:17px;color:var(--muted)}
+.facts{margin:0;padding:0;list-style:none;display:grid;gap:8px;color:var(--muted);font-size:14.5px}
+.facts li{display:flex;gap:10px;align-items:flex-start}
+.facts svg{flex:none;width:18px;height:18px;margin-top:3px;color:var(--gold)}
+.actions{display:grid;gap:10px}
+@media (min-width:720px){.prod{grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:40px;align-items:start}.actions{grid-template-columns:1fr 1fr}}
+
+/* carrinho e checkout */
+.cols{display:grid;grid-template-columns:minmax(0,1fr);gap:18px;padding-block:8px 8px}
+@media (min-width:820px){.cols{grid-template-columns:minmax(0,7fr) minmax(0,5fr);align-items:start}}
+.list{display:grid;gap:10px}
+.row{display:flex;align-items:center;gap:12px;padding:12px;border-radius:18px;border:1px solid var(--line);background:var(--surface)}
+.row .ins{height:60px;width:60px;flex:none}
+.row .ins svg{width:40px;height:40px}
+.row .mid{flex:1;min-width:0}
+.row .mid .code{font-size:16px}
+.row .mid b{display:block;font-weight:600;overflow-wrap:anywhere}
+.row .end{display:flex;flex-direction:column;align-items:flex-end;gap:4px}
+.link{background:none;border:none;padding:6px 0;color:var(--muted);font-size:13px;text-decoration:underline}
+.panel{padding:18px;border-radius:22px;border:1px solid var(--line);background:var(--surface);display:grid;gap:14px}
+.panel h3{margin:0;font-family:var(--font-display);font-weight:800;font-size:24px;letter-spacing:.04em;text-transform:uppercase}
+.sum{display:flex;justify-content:space-between;gap:12px;font-variant-numeric:tabular-nums}
+.sum.total{font-weight:600;font-size:19px;padding-top:12px;border-top:1px solid var(--line)}
+.field{display:grid;gap:6px}
+.field label{font-size:13.5px;font-weight:500;color:var(--muted)}
+.field input{height:46px;border-radius:12px;border:1px solid var(--line);background:var(--bg);color:var(--fg);padding:0 12px;font:inherit}
+.field input:focus{outline:none;border-color:var(--gold-lo);box-shadow:0 0 0 3px color-mix(in srgb,var(--gold) 20%,transparent)}
+.field .err{display:none;color:var(--danger);font-size:13px}
+.field.bad input{border-color:var(--danger)}
+.field.bad .err{display:block}
+.pay{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.pay input{position:absolute;opacity:0;pointer-events:none}
+.pay label{display:flex;flex-direction:column;gap:2px;padding:12px;border-radius:14px;border:1px solid var(--line);background:var(--bg);cursor:pointer}
+.pay label b{font-weight:600}
+.pay label span{font-size:12.5px;color:var(--muted)}
+.pay input:checked+label{border-color:var(--gold);box-shadow:0 0 0 3px color-mix(in srgb,var(--gold) 18%,transparent)}
+.pay input:focus-visible+label{outline:2px solid var(--gold-hi);outline-offset:2px}
+.notice{padding:12px 14px;border-radius:14px;border:1px solid color-mix(in srgb,var(--warn) 50%,var(--line));background:color-mix(in srgb,var(--warn) 10%,var(--bg));color:var(--fg);font-size:14px}
+.notice code{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:13px;color:var(--warn)}
+
+/* confirmação */
+.result{max-width:560px;margin:34px auto 8px;text-align:center;display:grid;gap:14px;justify-items:center}
+.seal{width:84px;height:84px;border-radius:50%;display:grid;place-items:center;border:1px solid var(--c);color:var(--c);background:color-mix(in srgb,var(--c) 14%,var(--bg));box-shadow:0 0 50px -14px var(--c)}
+.seal svg{width:42px;height:42px}
+.result h1{margin:0;font-family:var(--font-display);font-weight:800;font-size:clamp(36px,9vw,54px);line-height:1;letter-spacing:.03em;text-transform:uppercase;text-wrap:balance}
+.result p{margin:0;color:var(--muted)}
+.result .panel{width:100%;text-align:left}
+
+footer{margin-top:56px;border-top:1px solid var(--line);color:var(--muted);font-size:13.5px}
+footer .wrap{padding-block:24px;display:flex;flex-wrap:wrap;gap:8px 18px;justify-content:space-between}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(18px + env(safe-area-inset-bottom,0px));z-index:40;max-width:calc(100% - 32px);padding:11px 18px;border-radius:999px;background:var(--surface-2);border:1px solid var(--gold-lo);color:var(--fg);font-size:14px;box-shadow:0 12px 40px -10px #000}
+@media (prefers-reduced-motion:reduce){*{transition:none!important;scroll-behavior:auto!important}}
+/* área do militar: menu lateral, painel, carteira */
+.drawer{position:fixed;inset:0 0 0 auto;width:min(330px,86vw);background:var(--surface);border-left:1px solid var(--line);transform:translateX(102%);transition:transform .25s;z-index:50;overflow:auto;padding:max(16px,env(safe-area-inset-top,0px)) 14px 24px}
+.drawer.open{transform:none}.scrim{position:fixed;inset:0;background:#000b;z-index:45}
+.dn h6{margin:18px 8px 6px;font-size:11px;letter-spacing:.18em;color:var(--muted)}.dn a{display:block;padding:11px 10px;border-radius:10px;color:var(--muted);cursor:pointer}.dn a:hover{background:var(--surface-2);color:var(--fg)}
+.cardbox{background:var(--bg);border:1px solid var(--line);border-radius:22px;padding:18px;margin:14px 0}.hi{color:var(--muted);margin:22px 0 0}
+.rk{display:flex;gap:14px;align-items:center}.rk .ins{width:72px;height:72px;flex:none;color:var(--amber);border:1px solid var(--line);border-radius:16px;padding:8px;background:var(--surface)}
+.pbar{height:8px;border-radius:9px;background:var(--surface-2);margin-top:12px;overflow:hidden}.pbar i{display:block;height:100%;background:linear-gradient(90deg,var(--gold-lo),var(--gold-hi))}
+.wallet{border-radius:22px;padding:20px;margin:14px 0;background:var(--surface);border:1px solid var(--gold);border-radius:8px;color:var(--fg)}.wallet small{letter-spacing:.2em;opacity:.8}.wallet b{color:var(--amber);display:block;font:800 40px var(--font-display);margin:6px 0}
+.hrow{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:12px}
+.pgrid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px}.hl{border-color:var(--gold)!important}.cardbox input{width:100%;height:44px;border-radius:12px;border:1px solid var(--line);background:var(--surface);color:var(--fg);padding:0 12px;font:inherit;margin:6px 0 12px}
+#menuBtn{order:9}
+.me{display:flex;gap:12px;align-items:center}.av{width:48px;height:48px;flex:none;border-radius:50%;display:grid;place-items:center;font-weight:700;background:linear-gradient(135deg,var(--gold-lo),var(--gold));box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--gold)}
+.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:var(--green);animation:pulse 1.8s infinite}.x{margin-left:auto;width:34px;height:34px;border-radius:50%;background:var(--surface-2);border:1px solid var(--line)}
+.dn a{display:flex;align-items:center;gap:12px;border-left:3px solid transparent;transition:transform .15s,background .15s}.dn a:hover{transform:translateX(4px)}.dn a.on{background:var(--surface-2);color:var(--fg);border-left-color:var(--gold)}
+.dn a i{font-style:normal;width:24px;text-align:center}.dn a em{margin-left:auto;font-style:normal;font-size:10px;letter-spacing:.08em;text-transform:uppercase;padding:2px 8px;border-radius:99px;border:1px solid var(--line)}
+.drawer.open .dn a{animation:inl .35s both;animation-delay:calc(var(--i)*35ms)}.scrim{backdrop-filter:blur(3px);animation:fade .2s}
+@keyframes inl{from{opacity:0;transform:translateX(18px)}}@keyframes pulse{50%{opacity:.4}}@keyframes fade{from{opacity:0}}
+@media (prefers-reduced-motion:reduce){.drawer .dn a,.dot,.scrim{animation:none!important}}
+/* acréscimos: filtros, desconto, cupom */
+.filters{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 16px}
+button.chip{cursor:pointer}.chip.on{border-color:var(--gold);color:var(--gold-hi)}
+.old{color:var(--muted);font-size:.8em;margin-right:6px}.off{font-style:normal;font-size:.75em;font-weight:600;color:var(--green);margin-right:6px}
+</style>
+
+</head>
+<body>
+<header class="top">
+  <div class="wrap">
+    <button class="cartbtn" id="menuBtn" aria-label="Abrir menu"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
+    <a class="logo" href="#inicio" aria-label="EB DO JOE, página inicial">
+      <svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8l11 7 11-7"/><path d="M5 15l11 7 11-7"/><path d="M5 22l11 7 11-7" opacity=".55"/></svg>
+      <span>EB DO JOE</span>
+    </a>
+    <div class="search">
+      <label class="sr" for="q">Buscar produtos</label>
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>
+      <input id="q" type="search" placeholder="Buscar patente ou sigla" autocomplete="off">
+    </div>
+    <a class="cartbtn" href="#carrinho" aria-label="Abrir carrinho">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8h14l-1 12H6L5 8z"/><path d="M9 8V6a3 3 0 0 1 6 0v2"/></svg>
+      <span class="n" id="cartN" hidden>0</span>
+    </a>
+  </div>
+</header>
+
+<main id="app"></main>
+
+<footer>
+  <div class="wrap">
+    <span>© EB DO JOE</span>
+    <span>Pagamento somente por Pix</span>
+  </div>
+</footer>
+<div class="scrim" id="scrim" hidden></div><aside class="drawer" id="drawer" aria-label="Menu"></aside>
+<div class="toast" id="toast" role="status" hidden></div>
+
+<script>
+/* ====== CONFIGURAÇÃO DA LOJA ====== */
+
+/* Preços em reais. Preencha com o id do produto e o valor.
+   Produto sem preço aparece como "Preço a definir" e não pode ser comprado.
+   Exemplo de formato: scr: <valor>, sc: <valor> */
+const PRICES = {
+  scr:980, sc:185, inv:155,
+  sb:125, pat:110, 's-pat':95,
+  'gen-ex':75, 'gen-dv':68, 'gen-bda':63,
+  cel:53, 'ten-cel':48, maj:43, cap:37,
+  '1-ten':32, '2-ten':27, asp:23, cdt:20,
+  st:17, '1-sgt':14, '2-sgt':11, '3-sgt':8,
+  vendedor:125, 'cp-sem':250, 'cp-com':450, 'pat-pers':850
+};
+
+/* Pix. O endereço abaixo é o do seu servidor, que cria o pagamento
+   (Pix) com a chave do provedor e devolve { init_point: "https://..." }.
+   O Access Token nunca fica nesta página. */
+/* Cupons: 'CODIGO': percentual. Descontos: geral ou por nível (nome do grupo). Indisponíveis: ids sem venda. */
+const CUPONS = { };
+const DESCONTO = { geral: 0, niveis: { } };
+const UNAVAIL = { 'v-pres': 1 };
+const CONFIG = {
+  pix: { checkoutEndpoint: '' }
+};
+
+/* Produtos de Patentes: [id, sigla, nome, tipo de insígnia, quantidade, anel] */
+const PATENTES = [
+  { g: 'Alta Cúpula e Conselho', items: [
+    ['scr', 'SCR', 'Sub Criador', 'diamond', 4, 1],
+    ['sc', 'SC', 'Sócios', 'diamond', 3, 1],
+    ['inv', 'INV', 'Investidor', 'diamond', 2, 1],
+    ['v-pres', 'V-PRES', 'Vice Presidente', 'diamond', 1, 1] ]},
+  { g: 'Oficiais Soberanos', items: [
+    ['sb', 'SB', 'Soberano', 'star', 3, 1],
+    ['pat', 'PAT', 'Patriarca', 'star', 2, 1],
+    ['s-pat', 'S-PAT', 'Sub-Patriarca', 'star', 1, 1] ]},
+  { g: 'Oficiais Generais', items: [
+    ['gen-ex', 'GEN-EX', 'General de Exército', 'star', 4, 0],
+    ['gen-dv', 'GEN-DV', 'General de Divisão', 'star', 3, 0],
+    ['gen-bda', 'GEN-BDA', 'General de Brigada', 'star', 2, 0] ]},
+  { g: 'Oficiais Superiores', items: [
+    ['cel', 'CEL', 'Coronel', 'bar', 3, 0],
+    ['ten-cel', 'TEN-CEL', 'Tenente Coronel', 'bar', 2, 0],
+    ['maj', 'MAJ', 'Major', 'bar', 1, 0] ]},
+  { g: 'Oficiais Intermediários', items: [
+    ['cap', 'CAP', 'Capitão', 'dot', 3, 0] ]},
+  { g: 'Oficiais Subalternos', items: [
+    ['1-ten', '1º TEN', 'Primeiro Tenente', 'dot', 2, 0],
+    ['2-ten', '2º TEN', 'Segundo Tenente', 'dot', 1, 0],
+    ['asp', 'ASP', 'Aspirante à Oficial', 'dot', 1, 1] ]},
+  { g: 'Praças Especiais', items: [
+    ['cdt', 'CDT', 'Cadete', 'bar', 1, 1] ]},
+  { g: 'Graduados', items: [
+    ['st', 'ST', 'Subtenente', 'chevron', 4, 0],
+    ['1-sgt', '1º-SGT', 'Primeiro Sargento', 'chevron', 3, 0],
+    ['2-sgt', '2º-SGT', 'Segundo Sargento', 'chevron', 2, 0],
+    ['3-sgt', '3º-SGT', 'Terceiro Sargento', 'chevron', 1, 0] ]},
+  { g: 'Cargos Especiais', items: [
+    ['vendedor', 'VEND', 'Vendedor', 'bar', 1, 1],
+    ['cp-sem', 'CP', 'Cargo Personalizado (sem permissão)', 'dot', 1, 0],
+    ['cp-com', 'CP+', 'Cargo Personalizado (com permissão)', 'dot', 2, 1],
+    ['pat-pers', 'PAT-P', 'Patente Personalizada', 'diamond', 1, 1] ]}
+];
+
+/* Categorias. Para cadastrar produtos em Divisões ou Gamepasses, adicione
+   grupos com o mesmo formato de PATENTES dentro de "groups". */
+const CATS = [
+  { id: 'patentes', name: 'Patentes', color: 'amber', icon: 'chev',
+    desc: 'Da Alta Cúpula aos Graduados, todas as patentes disponíveis.', groups: PATENTES },
+  { id: 'loja-divisoes', name: 'Patentes de Divisões', color: 'blue', icon: 'shield',
+    desc: 'Patentes exclusivas de cada divisão.', groups: [] },
+  { id: 'gamepasses', name: 'Gamepasses', color: 'green', icon: 'pad',
+    desc: 'Vantagens e acessos extras para o jogo.', groups: [] },
+  { id: 'clubes', name: 'Clubes', color: 'violet', icon: 'shield',
+    desc: 'Clubes e grupos exclusivos.', groups: [] },
+  { id: 'titulos', name: 'Títulos', color: 'amber', icon: 'plus',
+    desc: 'Títulos para o seu perfil.', groups: [] },
+  { id: 'loja-cdp', name: 'CDP', color: 'blue', icon: 'chev',
+    desc: 'Serviços de contagem de dias para promoção.', groups: [] },
+  { id: 'novidades', name: 'Novidades', color: 'violet', icon: 'plus',
+    desc: 'Novas categorias chegando em breve.', groups: [], soon: true }
+];
+
+/* ====== DADOS DERIVADOS ====== */
+const PRODUCTS = [];
+CATS.forEach(c => c.groups.forEach(gr => gr.items.forEach(it => {
+  PRODUCTS.push({ id: it[0], code: it[1], name: it[2], kind: it[3], n: it[4], ring: it[5], group: gr.g, cat: c.id });
+})));
+const BY_ID = Object.fromEntries(PRODUCTS.map(p => [p.id, p]));
+const countOf = c => c.groups.reduce((s, g) => s + g.items.length, 0);
+
+/* ====== UTILIDADES ====== */
+const $ = s => document.querySelector(s);
+const brl = v => v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+const esc = s => String(s).replace(/[&<>"']/g, c => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[c]));
+const baseOf = id => { const v = PRICES[id]; return !UNAVAIL[id] && typeof v === 'number' && v > 0 ? v : null; };
+const discOf = id => { const p = BY_ID[id]; if (!p) return 0; const d = DESCONTO.niveis[p.group]; return typeof d === 'number' ? d : DESCONTO.geral; };
+const priceOf = id => { const v = baseOf(id); return v === null ? null : Math.round(v * (100 - discOf(id))) / 100; };
+const store = {
+  get(k, d) { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : d; } catch (e) { return d; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) {} }
+};
+let cart = store.get('ebdj-cart', []).filter(id => BY_ID[id]);
+let query = '', nivel = '';
+
+/* ====== ÍCONES ====== */
+function starPts(x, y, r) {
+  let p = [];
+  for (let i = 0; i < 10; i++) {
+    const a = -Math.PI / 2 + i * Math.PI / 5, rr = i % 2 ? r * 0.42 : r;
+    p.push((x + rr * Math.cos(a)).toFixed(1) + ',' + (y + rr * Math.sin(a)).toFixed(1));
+  }
+  return p.join(' ');
+}
+function insignia(kind, n, ring) {
+  const C = { 1: [[32, 32]], 2: [[20, 32], [44, 32]], 3: [[32, 19], [19, 43], [45, 43]], 4: [[20, 20], [44, 20], [20, 44], [44, 44]] };
+  const R = { 1: 15, 2: 11, 3: 9.5, 4: 8.5 };
+  const pts = C[n] || C[1], r = R[n] || 12;
+  let o = '';
+  if (ring) o += '<circle cx="32" cy="32" r="29" fill="none" stroke="currentColor" stroke-width="1.6" opacity=".5"/>';
+  if (kind === 'star') pts.forEach(p => { o += '<polygon points="' + starPts(p[0], p[1], r) + '" fill="currentColor"/>'; });
+  else if (kind === 'diamond') pts.forEach(p => { o += '<polygon points="' + p[0] + ',' + (p[1] - r) + ' ' + (p[0] + r * .8) + ',' + p[1] + ' ' + p[0] + ',' + (p[1] + r) + ' ' + (p[0] - r * .8) + ',' + p[1] + '" fill="currentColor"/>'; });
+  else if (kind === 'dot') pts.forEach(p => { o += '<circle cx="' + p[0] + '" cy="' + p[1] + '" r="' + (r * .72) + '" fill="currentColor"/>'; });
+  else if (kind === 'bar') {
+    const t = n * 7 + (n - 1) * 5, y0 = 32 - t / 2;
+    for (let i = 0; i < n; i++) o += '<rect x="13" y="' + (y0 + i * 12) + '" width="38" height="7" rx="1.6" fill="currentColor"/>';
+  } else if (kind === 'chevron') {
+    const t = (n - 1) * 11 + 10, y0 = 32 - t / 2;
+    for (let i = 0; i < n; i++) { const y = y0 + i * 11; o += '<path d="M11 ' + y + ' L32 ' + (y + 10) + ' L53 ' + y + '" fill="none" stroke="currentColor" stroke-width="4.5" stroke-linejoin="round" stroke-linecap="round"/>'; }
+  }
+  return '<svg viewBox="0 0 64 64" aria-hidden="true">' + o + '</svg>';
+}
+const ICONS = {
+  chev: '<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 8l11 7 11-7"/><path d="M5 15l11 7 11-7"/><path d="M5 22l11 7 11-7" opacity=".55"/></svg>',
+  shield: '<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linejoin="round"><path d="M16 3l10 4v8c0 7-4.5 12-10 14C10.500 27 6 22 6 15V7l10-4z"/><path d="M16 10l1.800 3.700 4 .6-2.900 2.800.7 4-3.600-1.900-3.600 1.900.7-4-2.900-2.800 4-.6L16 10z" fill="currentColor" stroke="none"/></svg>',
+  pad: '<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="9" width="26" height="14" rx="7"/><path d="M10 13v6M7 16h6"/><circle cx="21" cy="14.500" r="1.200" fill="currentColor"/><circle cx="24" cy="17.500" r="1.200" fill="currentColor"/></svg>',
+  plus: '<svg viewBox="0 0 32 32" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><circle cx="16" cy="16" r="12" stroke-dasharray="3 4"/><path d="M16 10v12M10 16h12"/></svg>'
+};
+const CHECK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.500l4.500 4.500L19 7.500"/></svg>';
+const CLOCK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>';
+const CROSS = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"><path d="M6 6l12 12M18 6L6 18"/></svg>';
+const TICK = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.500l4.500 4.500L19 7.500"/></svg>';
+
+/* ====== PEÇAS DE INTERFACE ====== */
+const priceHTML = id => { const v = priceOf(id); if (v === null) return '<span class="price tbd">' + (UNAVAIL[id] ? 'Indisponível' : 'Preço a definir') + '</span>'; const d = discOf(id); return '<span class="price">' + (d ? '<s class="old">' + brl(baseOf(id)) + '</s><em class="off">−' + d + '%</em>' : '') + brl(v) + '</span>'; };
+function pcard(p) {
+  const ok = priceOf(p.id) !== null;
+  return '<article class="pcard"><a class="pl" href="#produto-' + p.id + '"><div class="ins">' + insignia(p.kind, p.n, p.ring) + '</div><div class="tx"><span class="code">[' + esc(p.code) + ']</span><h4>' + esc(p.name) + '</h4></div></a>' +
+    '<div class="pfoot">' + priceHTML(p.id) + '<button class="mini" data-act="buy" data-id="' + p.id + '"' + (ok ? '' : ' disabled') + '>' + (ok ? 'Comprar' : (UNAVAIL[p.id] ? 'Indisponível' : 'Em breve')) + '</button></div></article>';
+}
+function toast(msg) {
+  const t = $('#toast'); t.textContent = msg; t.hidden = false;
+  clearTimeout(toast.h); toast.h = setTimeout(() => { t.hidden = true; }, 2200);
+}
+function saveCart() { store.set('ebdj-cart', cart); const n = $('#cartN'); n.textContent = cart.length; n.hidden = cart.length === 0; }
+function addToCart(id) {
+  if (priceOf(id) === null) { toast('Este produto ainda não tem preço definido.'); return false; }
+  if (cart.includes(id)) { toast('Este produto já está no carrinho.'); return true; }
+  cart.push(id); saveCart(); toast('Adicionado ao carrinho.'); return true;
+}
+const sub = () => cart.reduce((s, id) => s + (priceOf(id) || 0), 0);
+const cupomPct = () => CUPONS[String(store.get('ebdj-cupom', '')).toUpperCase()] || 0;
+const total = () => Math.round(sub() * (100 - cupomPct())) / 100;
+
+/* ====== TELAS ====== */
+function sectionHTML(cat) {
+  const q = query.trim().toLowerCase();
+  let body = '', shown = 0;
+  cat.groups.forEach(g => {
+    if (cat.id === 'patentes' && nivel && g.g !== nivel) return;
+    const items = g.items.filter(it => !q || (it[1] + ' ' + it[2] + ' ' + g.g).toLowerCase().includes(q));
+    if (!items.length) return;
+    shown += items.length;
+    body += '<div class="group"><h3>' + esc(g.g) + '<small>' + items.length + (items.length === 1 ? ' produto' : ' produtos') + '</small></h3><div class="grid">' + items.map(it => pcard(BY_ID[it[0]])).join('') + '</div></div>';
+  });
+  const col = 'var(--' + cat.color + ')', n = countOf(cat);
+  if (!n) body = '<div class="empty" style="--c:' + col + '"><h3>Em preparo</h3><p>Os produtos de ' + esc(cat.name) + ' aparecem aqui assim que forem cadastrados.</p></div>';
+  else if (!shown) body = '<div class="empty"><h3>Nada encontrado</h3><p>Nenhum produto corresponde a "' + esc(query) + '". Tente a sigla, como SGT ou GEN.</p></div>';
+  return '<section class="store-sec" id="sec-' + cat.id + '"><div class="sec-head"><h2 style="color:' + col + '">' + esc(cat.name) + '</h2><span>' + n + (n === 1 ? ' produto' : ' produtos') + '</span></div><p class="page-sub">' + esc(cat.desc) + '</p>' + (cat.id === 'patentes' ? filtersHTML() : '') + body + '</section>';
+}
+const filtersHTML = () => '<div class="filters">' + [''].concat(PATENTES.map(g => g.g)).map(n => '<button class="chip' + (nivel === n ? ' on' : '') + '" data-act="nivel" data-n="' + esc(n) + '">' + (n || 'Todas') + '</button>').join('') + '</div>';
+function destaques() {
+  const top = PRODUCTS.filter(p => priceOf(p.id) !== null).sort((a, b) => priceOf(b.id) - priceOf(a.id)).slice(0, 6);
+  return '<section class="block wrap" id="destaques"><div class="sec-head"><h2>Destaques</h2><span>O topo da hierarquia</span></div><div class="grid">' + top.map(pcard).join('') + '</div></section>';
+}
+function viewHome() {
+  const cards = CATS.map(c => {
+    const n = countOf(c);
+    const label = c.soon ? 'Em breve' : n + (n === 1 ? ' produto' : ' produtos');
+    const tag = c.soon ? 'div' : 'a', href = c.soon ? '' : ' href="#' + c.id + '"';
+    return '<' + tag + ' class="cat ' + c.color + (c.soon ? ' soon' : '') + '"' + href + '><span class="ic">' + ICONS[c.icon] + '</span><h3>' + c.name + '</h3><p>' + c.desc + '</p><span class="count">' + label + '</span></' + tag + '>';
+  }).join('');
+  const live = CATS.filter(c => !c.soon);
+  const tabs = live.map(c => '<a href="#' + c.id + '">' + esc(c.name) + '</a>').join('');
+  return '<div class="hero"><svg class="ins-deco" viewBox="0 0 64 64" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M8 14l24 14 24-14"/><path d="M8 28l24 14 24-14"/><path d="M8 42l24 14 24-14"/></svg>' +
+    '<div class="wrap"><span class="eyebrow">Loja virtual</span><h1>EB DO JOE</h1>' +
+    '<p>Escolha sua patente, pague com Pix e acompanhe a confirmação do pedido.</p>' +
+    '<div class="chips"><span class="chip">Pix</span></div>' +
+    '<button class="btn" data-act="explore">Explorar produtos</button> <a class="btn ghost" href="#entrar">Entrar com o Roblox</a></div></div>' +
+    '<section class="block wrap" id="categorias"><div class="sec-head"><h2>Categorias</h2><span>' + PRODUCTS.length + ' produtos</span></div><div class="cats">' + cards + '</div></section>' +
+    destaques() +
+    '<nav class="tabs" aria-label="Seções da loja"><div class="wrap">' + tabs + '</div></nav>' +
+    '<div class="wrap">' + live.map(sectionHTML).join('') + '</div>';
+}
+function viewProduct(id) {
+  const p = BY_ID[id];
+  if (!p) return viewNotFound();
+  const ok = priceOf(id) !== null;
+  const siblings = PATENTES.find(g => g.g === p.group).items.filter(it => it[0] !== id).map(it => BY_ID[it[0]]);
+  return '<div class="wrap"><div class="crumb"><a href="#inicio">Início</a><span>/</span><a href="#patentes">Patentes</a><span>/</span><span>[' + esc(p.code) + ']</span></div>' +
+    '<div class="prod"><div class="big">' + insignia(p.kind, p.n, p.ring) + '</div><div class="info">' +
+    '<span class="tag">' + esc(p.group) + '</span><div><span class="code" style="font-size:24px">[' + esc(p.code) + ']</span><h1>' + esc(p.name) + '</h1></div>' +
+    '<div class="bigprice' + (ok ? '' : ' tbd') + '">' + (ok ? brl(priceOf(id)) : (UNAVAIL[id] ? 'Indisponível' : 'Preço a definir')) + '</div>' +
+    '<ul class="facts"><li>' + TICK + '<span>Patente ' + esc(p.name) + ', sigla ' + esc(p.code) + '.</span></li><li>' + TICK + '<span>Classe: ' + esc(p.group) + '.</span></li><li>' + TICK + '<span>Pagamento somente por Pix.</span></li></ul>' +
+    '<div class="actions"><button class="btn" data-act="buy" data-id="' + id + '"' + (ok ? '' : ' disabled') + '>' + (ok ? 'Comprar agora' : 'Em breve') + '</button><button class="btn ghost" data-act="add" data-id="' + id + '"' + (ok ? '' : ' disabled') + '>Adicionar ao carrinho</button></div></div></div>' +
+    (siblings.length ? '<div class="group"><h3>Mais em ' + esc(p.group) + '</h3><div class="grid">' + siblings.map(pcard).join('') + '</div></div>' : '') + '</div>';
+}
+function viewCart() {
+  if (!cart.length) {
+    return '<div class="wrap"><h1 class="page-title" style="margin-top:26px">Carrinho</h1><div class="empty"><h3>Carrinho vazio</h3><p>Escolha uma patente para começar.</p><div style="margin-top:16px"><a class="btn" href="#patentes">Ver patentes</a></div></div></div>';
+  }
+  const rows = cart.map(id => { const p = BY_ID[id]; return '<div class="row"><div class="ins">' + insignia(p.kind, p.n, p.ring) + '</div><div class="mid"><span class="code">[' + esc(p.code) + ']</span><b>' + esc(p.name) + '</b></div><div class="end">' + priceHTML(id) + '<button class="link" data-act="remove" data-id="' + id + '">Remover</button></div></div>'; }).join('');
+  return '<div class="wrap"><h1 class="page-title" style="margin-top:26px">Carrinho</h1><div class="cols"><div class="list">' + rows + '</div>' +
+    '<div class="panel"><h3>Resumo</h3><div class="sum"><span>' + cart.length + (cart.length === 1 ? ' item' : ' itens') + '</span><span>' + brl(sub()) + '</span></div>' + (cupomPct() ? '<div class="sum"><span>Cupom ' + esc(store.get('ebdj-cupom', '')) + ' (−' + cupomPct() + '%)</span><span>−' + brl(sub() - total()) + '</span></div>' : '') + '<div class="field"><label for="cp">Cupom de desconto</label><input id="cp" autocomplete="off" value="' + esc(store.get('ebdj-cupom', '')) + '"></div><button class="btn ghost block" data-act="cupom">Aplicar cupom</button><div class="sum total"><span>Total</span><span>' + brl(total()) + '</span></div><a class="btn block" href="#checkout">Finalizar compra</a><a class="btn ghost block" href="#patentes">Continuar comprando</a></div></div></div>';
+}
+function viewCheckout() {
+  if (!cart.length) return viewCart();
+  const rows = cart.map(id => { const p = BY_ID[id]; return '<div class="sum"><span>[' + esc(p.code) + '] ' + esc(p.name) + '</span><span>' + brl(priceOf(id) || 0) + '</span></div>'; }).join('');
+  const d = store.get('ebdj-buyer', {});
+  return '<div class="wrap"><div class="crumb"><a href="#carrinho">Carrinho</a><span>/</span><span>Finalizar compra</span></div><h1 class="page-title">Finalizar compra</h1><div class="cols">' +
+    '<form class="panel" id="payForm" novalidate><h3>Seus dados</h3>' +
+    '<div class="field" data-f="name"><label for="f-name">Nome completo</label><input id="f-name" autocomplete="name" value="' + esc(d.name || '') + '"><span class="err">Informe seu nome.</span></div>' +
+    '<div class="field" data-f="email"><label for="f-email">E-mail</label><input id="f-email" type="email" autocomplete="email" inputmode="email" value="' + esc(d.email || '') + '"><span class="err">Informe um e-mail válido.</span></div>' +
+    '<div class="field" data-f="user"><label for="f-user">Usuário no jogo (para receber o produto)</label><input id="f-user" autocomplete="off" value="' + esc(d.user || '') + '"><span class="err">Informe seu usuário no jogo.</span></div>' +
+    '<div class="field" data-f="gift"><label for="f-gift">Presentear outro usuário (opcional)</label><input id="f-gift" autocomplete="off" value="' + esc(d.gift || '') + '"></div>' +
+    '<h3>Pagamento</h3><div class="pay"><input type="radio" name="m" id="m-pix" value="pix" checked><label for="m-pix"><b>Pix</b><span>Aprovação na hora</span></label></div>' +
+    '<div class="notice" id="payNotice" hidden></div>' +
+    '<button class="btn block" type="submit">Pagar ' + brl(total()) + ' com Pix</button></form>' +
+    '<div class="panel"><h3>Pedido</h3>' + rows + '<div class="sum total"><span>Total</span><span>' + brl(total()) + '</span></div></div></div></div>';
+}
+function viewResult(status) {
+  const o = store.get('ebdj-order', null);
+  const S = {
+    confirmacao: { c: 'var(--green)', icon: CHECK, t: 'Pagamento confirmado', m: 'Recebemos o seu pagamento. Guarde o número do pedido.' },
+    'pagamento-pendente': { c: 'var(--warn)', icon: CLOCK, t: 'Aguardando pagamento', m: 'Assim que o Pix for confirmado o pagamento, o pedido é liberado.' },
+    'pagamento-recusado': { c: 'var(--danger)', icon: CROSS, t: 'Pagamento não aprovado', m: 'O pagamento não foi concluído. Você pode tentar de novo com outro meio.' }
+  }[status];
+  let det = '';
+  if (o) {
+    det = '<div class="panel"><h3>Pedido ' + esc(o.id) + '</h3>' + o.items.map(i => '<div class="sum"><span>[' + esc(i.code) + '] ' + esc(i.name) + '</span><span>' + brl(i.price) + '</span></div>').join('') +
+      '<div class="sum total"><span>Total</span><span>' + brl(o.total) + '</span></div><div class="sum"><span>Usuário no jogo</span><span>' + esc(o.buyer.user) + '</span></div><div class="sum"><span>E-mail</span><span>' + esc(o.buyer.email) + '</span></div></div>';
+  }
+  if (status === 'confirmacao') { cart = []; saveCart(); }
+  return '<div class="wrap"><div class="result" style="--c:' + S.c + '"><div class="seal">' + S.icon + '</div><h1>' + S.t + '</h1><p>' + S.m + '</p>' + det +
+    (status === 'pagamento-recusado' ? '<a class="btn" href="#checkout">Tentar novamente</a>' : '<a class="btn ghost" href="#inicio">Voltar à loja</a>') + '</div></div>';
+}
+function viewNotFound() {
+  return '<div class="wrap"><div class="empty"><h3>Página não encontrada</h3><p>Esse endereço não existe na loja.</p><div style="margin-top:16px"><a class="btn" href="#inicio">Ir para o início</a></div></div></div>';
+}
+
+/* ====== ÁREA DO MILITAR (demonstração local) ====== */
+const RANKS = PATENTES.slice(0, -1).flatMap(g => g.items).reverse().map(i => ({ id: i[0], code: i[1], name: i[2] }));
+const CDP_DIAS = 7, BONUS = [[30, 3], [80, 8], [150, 12]];
+const DIVS = ['Corregedoria-Geral (CGEx)', 'Brigada de Infantaria Paraquedista (BIP)', 'Centro de Inteligência (CIE)', 'Batalhão de Ações de Comandos (BAC)', 'Batalhão de Forças Especiais (BFEsp)', 'Centro de Instrução de Guerra na Selva (CIGS)', 'Comerciantes do Exército (CEx)', 'Batalhão de Polícia do Exército (BPE)'];
+const USER = () => store.get('ebdj-user', null);
+const days = u => Math.max(0, Math.floor((Date.now() - u.last) / 864e5));
+const rk = u => RANKS[u.rank] || RANKS[0], nxt = u => RANKS[u.rank + 1];
+const pg = (t, b) => '<div class="wrap"><h1 class="page-title" style="margin-top:26px">' + t + '</h1>' + b + '</div>';
+const need = () => '<div class="wrap"><div class="empty"><h3>Entre para continuar</h3><div style="margin-top:16px"><a class="btn" href="#entrar">Entrar com o Roblox</a></div></div></div>';
+const soon = t => () => pg(t, '<div class="empty"><h3>Em breve</h3><p>Esta função precisa do servidor da loja para funcionar com segurança.</p></div>');
+const insOf = id => { const p = BY_ID[id]; return p ? insignia(p.kind, p.n, p.ring) : ''; };
+function viewDash(u) {
+  const hr = new Date().getHours(), n = nxt(u), d = days(u), ok = d >= CDP_DIAS, mx = BONUS.length ? Math.max(...BONUS.map(b => b[1])) : 0;
+  const offers = RANKS.slice(u.rank + 1, u.rank + 4).map(r => pcard(BY_ID[r.id])).join('');
+  return '<div class="wrap"><p class="hi">' + 'Apresentação' + ',</p><h1 class="page-title" style="margin-top:4px">' + esc(u.name) + '</h1>' +
+    '<div class="cardbox" style="border-left:4px solid var(--gold);border-radius:8px"><div class="rk"><div class="ins">' + insOf(rk(u).id) + '</div><div><span class="eyebrow">Posto atual</span><h3 style="margin:2px 0;font-size:24px">' + esc(rk(u).name) + '</h3></div></div>' +
+    '<div style="display:flex;justify-content:space-between;margin-top:14px;color:var(--muted)"><span>' + (n ? 'Rumo a: ' + esc(n.name) : 'Topo da hierarquia') + '</span><b style="color:var(--fg)">' + (ok ? 'Prazo cumprido' : 'Faltam ' + (CDP_DIAS - d) + ' dias') + '</b></div><div class="pbar"><i style="width:' + Math.min(100, Math.round(d / CDP_DIAS * 100)) + '%"></i></div></div>' +
+    '<div class="wallet"><small>COFRE</small><b>' + brl(u.saldo || 0) + '</b>' + (mx ? '<div>Recarga com bônus de até +' + String(mx).replace('.', ',') + '% de bônus</div>' : '') + '<a class="btn ghost" style="margin-top:14px" href="#carteira">Recarregar cofre</a></div>' +
+    (offers ? '<div class="sec-head"><h2>Recomendados para o seu posto</h2><a href="#patentes" style="color:var(--gold-hi)">Abrir intendência</a></div><div class="hrow">' + offers + '</div>' : '') + '</div>';
+}
+function viewLogin() {
+  const u = USER();
+  if (u) return viewDash(u);
+  return pg('Entrar com o Roblox', '<div class="cardbox"><label for="lu">Usuário do Roblox</label><input id="lu" autocomplete="off"><label for="lr">Patente atual</label><select id="lr" class="sel" style="width:100%;height:44px;border-radius:12px;background:var(--surface);color:var(--fg);border:1px solid var(--line);margin:6px 0 12px">' + RANKS.map((r, i) => '<option value="' + i + '">' + esc(r.name) + '</option>').join('') + '</select><label for="ld">Dias na patente atual</label><input id="ld" type="number" min="0" value="0"><button class="btn block" data-act="login">Entrar</button></div><div class="notice">Modo demonstração: o login oficial do Roblox (OAuth) e a patente real dependem do servidor. Nunca informe senha do Roblox.</div>');
+}
+function drawer() {
+  let _n = 0;
+  const u = USER(), I = { inicio: '🏠', perfil: '👤', promover: '⬆️', cdp: '⏱️', hierarquia: '🏅', divisoes: '🛡️', historico: '📜', ranking: '🏆', patentes: '🛍️', carteira: '👛', titulos: '🎖️', roleta: '🎡', duelos: '⚔️' }, B = { promover: 'em breve', ranking: 'em breve', roleta: 'em breve', duelos: 'em breve' }, cur = location.hash || '#inicio',
+    L = (h, t) => '<a class="' + (cur === '#' + h ? 'on' : '') + '" href="#' + h + '" style="--i:' + (_n++) + '"><i>' + (I[h] || '•') + '</i><span>' + t + '</span>' + (B[h] ? '<em>' + B[h] + '</em>' : '') + '</a>';
+  $('#drawer').innerHTML = (u ? '<div class="cardbox me" style="margin-top:0"><div class="av">' + esc(u.name.slice(0, 2).toUpperCase()) + '</div><div><b>' + esc(u.name) + '</b> <span class="dot"></span><br><small>' + esc(rk(u).name) + ' · Membro</small></div><button class="x" data-act="fechar" aria-label="Fechar menu">✕</button></div><div class="cardbox"><small>SALDO</small><br><b>' + brl(u.saldo || 0) + '</b> <a class="mini" href="#carteira" style="float:right;padding:8px 12px">+ Adicionar</a></div>' : '<a class="btn block" href="#entrar">Entrar com o Roblox</a>') +
+    '<div class="dn"><h6>QUARTEL</h6>' + L('inicio', 'Início') + L('perfil', 'Minha ficha') + L('promover', 'Promoções') + L('cdp', 'Prazo de promoção') + '<h6>REGISTROS</h6>' + L('hierarquia', 'Escala de patentes') + L('divisoes', 'Unidades') + L('historico', 'Meus pedidos') + L('ranking', 'Quadro de honra') + '<h6>INTENDÊNCIA</h6>' + L('patentes', 'Loja') + L('carteira', 'Cofre') + L('titulos', 'Condecorações') + L('roleta', 'Sorteio diário') + L('duelos', 'Desafios x1') + (u ? '<h6></h6><a data-act="sair"><i>🚪</i><span>Sair</span></a>' : '') + '</div>';
+}
+const setDrawer = o => { $('#drawer').classList.toggle('open', o); $('#scrim').hidden = !o; };
+$('#menuBtn').addEventListener('click', () => setDrawer(true));
+$('#scrim').addEventListener('click', () => setDrawer(false));
+const PAGES = {
+  entrar: viewLogin,
+  perfil: u => pg('Minha ficha', '<div class="cardbox"><div class="sum"><span>Usuário</span><b>' + esc(u.name) + '</b></div><div class="sum"><span>Patente</span><b>' + esc(rk(u).name) + '</b></div><div class="sum"><span>Dias na patente</span><b>' + days(u) + '</b></div><div class="sum"><span>Saldo</span><b>' + brl(u.saldo || 0) + '</b></div></div>'),
+  cdp: u => pg('CDP', '<div class="cardbox"><h3>' + days(u) + ' de ' + CDP_DIAS + ' dias</h3><div class="pbar"><i style="width:' + Math.min(100, Math.round(days(u) / CDP_DIAS * 100)) + '%"></i></div><p style="color:var(--muted)">' + (days(u) >= CDP_DIAS ? 'CDP completa. A promoção ainda depende da autorização dos superiores.' : 'Faltam ' + (CDP_DIAS - days(u)) + ' dias para cumprir a CDP.') + '</p></div>'),
+  hierarquia: u => pg('Escala de patentes', '<div class="list">' + RANKS.map((r, i) => ({ r, i })).reverse().map(x => '<div class="row' + (x.i === u.rank ? ' hl' : '') + '"><div class="ins">' + insOf(x.r.id) + '</div><div class="mid"><span class="code">[' + esc(x.r.code) + ']</span><b>' + esc(x.r.name) + '</b></div></div>').join('') + '</div>'),
+  divisoes: () => pg('Unidades', '<div class="pgrid">' + DIVS.map(d => '<div class="cardbox" style="margin:0">' + esc(d) + '</div>').join('') + '</div>'),
+  historico: () => { const o = store.get('ebdj-order', null); return pg('Meus pedidos', o ? '<div class="cardbox"><b>Pedido ' + esc(o.id) + '</b>' + o.items.map(i => '<div class="sum"><span>[' + esc(i.code) + '] ' + esc(i.name) + '</span><span>' + brl(i.price) + '</span></div>').join('') + '<div class="sum total"><span>Total</span><span>' + brl(o.total) + '</span></div></div>' : '<div class="empty"><h3>Sem pedidos ainda</h3></div>'); },
+  carteira: u => pg('Cofre', '<div class="wallet"><small>SALDO</small><b>' + brl(u.saldo || 0) + '</b></div><div class="cardbox"><h3>Adicionar saldo</h3>' + (BONUS.length ? '<p style="color:var(--muted)">Bônus: ' + BONUS.map(b => 'R$ ' + b[0] + ' → +' + String(b[1]).replace('.', ',') + '%').join(' · ') + '</p>' : '') + '<label for="sv">Valor (mínimo R$ 10)</label><input id="sv" type="number" min="10" inputmode="numeric"><button class="btn block" data-act="saldo">Pagar com Pix</button></div>'),
+  promover: soon('Promoções'), ranking: soon('Quadro de honra'), roleta: soon('Sorteio diário'), duelos: soon('Desafios x1')
+};
+
+/* ====== ROTAS ====== */
+function setTabs() {
+  const tabs = [...document.querySelectorAll('.tabs a')];
+  if (!tabs.length) return;
+  let cur = 0;
+  tabs.forEach((a, i) => { const el = $('#sec-' + a.getAttribute('href').slice(1)); if (el && el.getBoundingClientRect().top < 170) cur = i; });
+  tabs.forEach((a, i) => a.classList.toggle('on', i === cur));
+}
+function route(scroll) {
+  const h = (location.hash || '#inicio').slice(1);
+  const cat = CATS.find(c => c.id === h && !c.soon);
+  let html;
+  const U = USER();
+  if (h === 'inicio' && U) html = viewDash(U);
+  else if (h === 'inicio' || cat) html = viewHome();
+  else if (PAGES[h]) html = (h === 'entrar' || U) ? PAGES[h](U) : need();
+  else if (h.startsWith('produto-')) html = viewProduct(h.slice(8));
+  else if (h === 'carrinho') html = viewCart();
+  else if (h === 'checkout') html = viewCheckout();
+  else if (h === 'confirmacao' || h === 'pagamento-pendente' || h === 'pagamento-recusado') html = viewResult(h);
+  else html = viewNotFound();
+  $('#app').innerHTML = html;
+  document.title = 'EB DO JOE';
+  if (scroll !== false) {
+    const el = cat && $('#sec-' + h);
+    if (el) el.scrollIntoView(); else window.scrollTo(0, 0);
+  }
+  setTabs();
+  drawer(); setDrawer(false);
+}
+window.addEventListener('hashchange', () => route());
+window.addEventListener('scroll', setTabs, { passive: true });
+
+/* ====== EVENTOS ====== */
+document.addEventListener('click', e => {
+  const b = e.target.closest('[data-act]');
+  if (!b) return;
+  const id = b.dataset.id, act = b.dataset.act;
+  if (act === 'explore') $('#categorias').scrollIntoView({ behavior: 'smooth' });
+  else if (act === 'add') addToCart(id);
+  else if (act === 'buy') { if (addToCart(id)) location.hash = '#checkout'; }
+  else if (act === 'fechar') setDrawer(false);
+  else if (act === 'login') {
+    const n = ($('#lu').value || '').trim();
+    if (!/^\w{3,20}$/.test(n)) return toast('Usuário inválido.');
+    store.set('ebdj-user', { name: n, rank: +$('#lr').value, last: Date.now() - Math.max(0, +$('#ld').value || 0) * 864e5, saldo: 0 }); location.hash = '#inicio'; route();
+  }
+  else if (act === 'sair') { store.set('ebdj-user', null); location.hash = '#inicio'; route(); }
+  else if (act === 'saldo') {
+    const v = +$('#sv').value, ep = CONFIG.pix.checkoutEndpoint;
+    if (!(v >= 10)) return toast('Valor mínimo: R$ 10.');
+    if (!ep) return toast('Pagamento ainda não conectado ao servidor.');
+    fetch(ep, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify({ tipo: 'saldo', valor: v, user: USER().name }) }).then(r => r.json()).then(j => { if (!j.init_point) throw 0; location.href = j.init_point; }).catch(() => toast('Não foi possível iniciar o pagamento.'));
+  }
+  else if (act === 'nivel') { nivel = b.dataset.n; route(false); }
+  else if (act === 'cupom') { const c = ($('#cp').value || '').trim().toUpperCase(); if (c && !CUPONS[c]) toast('Cupom inválido.'); else { store.set('ebdj-cupom', c); toast(c ? 'Cupom aplicado.' : 'Cupom removido.'); route(false); } }
+  else if (act === 'remove') { cart = cart.filter(x => x !== id); saveCart(); route(); }
+});
+
+$('#q').addEventListener('input', e => {
+  query = e.target.value;
+  const h = (location.hash || '#inicio').slice(1);
+  const onHome = h === 'inicio' || CATS.some(c => c.id === h && !c.soon);
+  if (!onHome) { location.hash = '#patentes'; return; }
+  route(false);
+  if (query.trim()) { const el = $('#sec-patentes'); if (el) el.scrollIntoView(); }
+});
+
+document.addEventListener('submit', async e => {
+  if (e.target.id !== 'payForm') return;
+  e.preventDefault();
+  const v = id => $('#' + id).value.trim();
+  const buyer = { name: v('f-name'), email: v('f-email'), user: v('f-user'), gift: v('f-gift') };
+  const bad = { name: !buyer.name, email: !/^\S+@\S+\.\S+$/.test(buyer.email), user: !buyer.user };
+  document.querySelectorAll('.field').forEach(f => f.classList.toggle('bad', !!bad[f.dataset.f]));
+  const notice = $('#payNotice');
+  if (bad.name || bad.email || bad.user) { notice.hidden = true; return; }
+  store.set('ebdj-buyer', buyer);
+  const method = document.querySelector('input[name="m"]:checked').value;
+  const order = {
+    id: 'EB' + Date.now().toString(36).toUpperCase(),
+    items: cart.map(id => ({ id, code: BY_ID[id].code, name: BY_ID[id].name, price: priceOf(id) })),
+    total: total(), cupom: store.get('ebdj-cupom', ''), method, buyer
+  };
+  store.set('ebdj-order', order);
+  const endpoint = CONFIG.pix.checkoutEndpoint;
+  notice.hidden = false;
+  if (!endpoint) {
+    notice.innerHTML = 'O pagamento ainda não está conectado. Informe o endereço do seu servidor em <code>CONFIG.pix.checkoutEndpoint</code> para liberar o Pix.';
+    return;
+  }
+  notice.textContent = 'Gerando o Pix...';
+  try {
+    const r = await fetch(endpoint, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(order) });
+    const j = await r.json();
+    if (!j.init_point) throw new Error('sem link de pagamento');
+    location.href = j.init_point;
+  } catch (err) {
+    notice.textContent = 'Não foi possível iniciar o pagamento. Tente de novo em instantes.';
+  }
+});
+
+saveCart();
+route();
+</script>
+
+</body>
+</html>
